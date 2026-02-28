@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Wagba — Eat well. Spend less. Think never.</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #F7F4EF;
+      --ink: #1A1814;
+      --ink-soft: #6B6760;
+      --accent: #C8553D;
+      --accent-light: #F5E9E6;
+      --border: #E2DDD6;
+      --white: #FFFFFF;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* NAV */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 28px 64px;
+      border-bottom: 1px solid var(--border);
+      opacity: 0;
+      animation: fadeUp 0.6s ease 0.1s forwards;
+    }
+
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .logo span {
+      color: var(--accent);
+    }
+
+    .nav-tag {
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      border: 1px solid var(--border);
+      padding: 6px 14px;
+      border-radius: 100px;
+    }
+
+    /* HERO */
+    .hero {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 110px 32px 80px;
+      text-align: center;
+      opacity: 0;
+      animation: fadeUp 0.7s ease 0.25s forwards;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 28px;
+    }
+
+    .eyebrow::before, .eyebrow::after {
+      content: '';
+      display: block;
+      width: 24px;
+      height: 1px;
+      background: var(--accent);
+      opacity: 0.5;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.6rem, 6vw, 4.2rem);
+      font-weight: 600;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      margin-bottom: 24px;
+    }
+
+    h1 em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .subtitle {
+      font-size: 1.1rem;
+      color: var(--ink-soft);
+      max-width: 520px;
+      margin: 0 auto 48px;
+      line-height: 1.7;
+    }
+
+    /* FORM */
+    .waitlist-form {
+      display: flex;
+      gap: 0;
+      max-width: 440px;
+      margin: 0 auto 20px;
+      border: 1.5px solid var(--ink);
+      border-radius: 6px;
+      overflow: hidden;
+      background: var(--white);
+      box-shadow: 4px 4px 0px var(--ink);
+      transition: box-shadow 0.2s ease, transform 0.2s ease;
+    }
+
+    .waitlist-form:focus-within {
+      box-shadow: 6px 6px 0px var(--accent);
+      transform: translate(-1px, -1px);
+    }
+
+    .waitlist-form input {
+      flex: 1;
+      border: none;
+      outline: none;
+      padding: 14px 18px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 300;
+      background: transparent;
+      color: var(--ink);
+    }
+
+    .waitlist-form input::placeholder {
+      color: #B0AAA3;
+    }
+
+    .waitlist-form button {
+      border: none;
+      border-left: 1.5px solid var(--ink);
+      background: var(--ink);
+      color: var(--white);
+      padding: 14px 22px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.2s ease;
+    }
+
+    .waitlist-form button:hover {
+      background: var(--accent);
+      border-left-color: var(--accent);
+    }
+
+    .form-note {
+      font-size: 0.78rem;
+      color: var(--ink-soft);
+    }
+
+    /* SUCCESS STATE */
+    .success-msg {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 0.95rem;
+      color: var(--accent);
+      font-weight: 500;
+      max-width: 440px;
+      margin: 0 auto 20px;
+      padding: 14px;
+      background: var(--accent-light);
+      border-radius: 6px;
+    }
+
+    /* DIVIDER */
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    /* FEATURES */
+    .features {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 80px 32px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      opacity: 0;
+      animation: fadeUp 0.7s ease 0.5s forwards;
+    }
+
+    .feature {
+      padding: 40px 36px;
+      border: 1px solid var(--border);
+      background: var(--white);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .feature:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(26,24,20,0.07);
+    }
+
+    .feature-icon {
+      font-size: 1.6rem;
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    .feature h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+      letter-spacing: -0.01em;
+    }
+
+    .feature p {
+      font-size: 0.88rem;
+      color: var(--ink-soft);
+      line-height: 1.65;
+    }
+
+    /* STATS BAR */
+    .stats {
+      background: var(--ink);
+      color: var(--white);
+      display: flex;
+      justify-content: center;
+      gap: 80px;
+      padding: 48px 32px;
+      opacity: 0;
+      animation: fadeUp 0.7s ease 0.65s forwards;
+    }
+
+    .stat {
+      text-align: center;
+    }
+
+    .stat-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      font-weight: 600;
+      color: var(--accent);
+      display: block;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .stat-label {
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(247,244,239,0.5);
+    }
+
+    /* HOW IT WORKS */
+    .how {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 96px 32px;
+      text-align: center;
+      opacity: 0;
+      animation: fadeUp 0.7s ease 0.7s forwards;
+    }
+
+    .section-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      margin-bottom: 16px;
+    }
+
+    .how h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 56px;
+      line-height: 1.2;
+    }
+
+    .steps {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      text-align: left;
+    }
+
+    .step {
+      display: flex;
+      gap: 28px;
+      align-items: flex-start;
+      padding: 28px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .step:last-child { border-bottom: none; }
+
+    .step-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.85rem;
+      font-style: italic;
+      color: var(--accent);
+      min-width: 28px;
+      padding-top: 2px;
+    }
+
+    .step-content h4 {
+      font-weight: 500;
+      font-size: 1rem;
+      margin-bottom: 4px;
+    }
+
+    .step-content p {
+      font-size: 0.88rem;
+      color: var(--ink-soft);
+      line-height: 1.6;
+    }
+
+    /* BOTTOM CTA */
+    .bottom-cta {
+      background: var(--accent-light);
+      border-top: 1px solid #E8CFC9;
+      padding: 96px 32px;
+      text-align: center;
+      opacity: 0;
+      animation: fadeUp 0.7s ease 0.8s forwards;
+    }
+
+    .bottom-cta h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+      line-height: 1.2;
+    }
+
+    .bottom-cta p {
+      color: var(--ink-soft);
+      margin-bottom: 40px;
+      font-size: 0.95rem;
+    }
+
+    /* FOOTER */
+    footer {
+      padding: 28px 64px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.78rem;
+      color: var(--ink-soft);
+    }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 680px) {
+      nav { padding: 20px 24px; }
+      .features { grid-template-columns: 1fr; padding: 48px 24px; }
+      .stats { flex-direction: column; gap: 32px; }
+      footer { flex-direction: column; gap: 8px; text-align: center; }
+      .waitlist-form { flex-direction: column; box-shadow: 3px 3px 0 var(--ink); }
+      .waitlist-form button { border-left: none; border-top: 1.5px solid var(--ink); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="logo">wagba<span>.</span></a>
+    <span class="nav-tag">Early Access</span>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="eyebrow">Meal planning, finally fixed</div>
+    <h1>Eat well for <em>€35</em> a week.<br>In under 20 minutes.</h1>
+    <p class="subtitle">Wagba builds your weekly meals around your budget, time, and goals — then hands you a ready-to-shop grocery list. No thinking required.</p>
+
+    <iframe data-tally-src="https://tally.so/embed/lbyrv6?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1" loading="lazy" width="100%" height="211" frameborder="0" marginheight="0" marginwidth="0" title="Wagba Waitlist"></iframe>
+    <p class="form-note">Free during beta · No credit card · Unsubscribe anytime</p>
+  </section>
+
+  <hr class="divider"/>
+
+  <!-- FEATURES -->
+  <section class="features">
+    <div class="feature">
+      <span class="feature-icon">⚖️</span>
+      <h3>Budget-first planning</h3>
+      <p>Set your weekly budget in euros and Wagba builds around it — never overshoot the supermarkt again.</p>
+    </div>
+    <div class="feature">
+      <span class="feature-icon">🛒</span>
+      <h3>Auto grocery list</h3>
+      <p>One tap and your entire week is a clean, sorted shopping list. Grouped by aisle. Nothing forgotten.</p>
+    </div>
+    <div class="feature">
+      <span class="feature-icon">🍳</span>
+      <h3>Batch-cook mode</h3>
+      <p>Cook once, eat four times. Wagba groups ingredients to minimize effort and maximize your free evenings.</p>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <div class="stats">
+    <div class="stat">
+      <span class="stat-number">€35</span>
+      <span class="stat-label">Weekly budget target</span>
+    </div>
+    <div class="stat">
+      <span class="stat-number">20 min</span>
+      <span class="stat-label">Per day in the kitchen</span>
+    </div>
+    <div class="stat">
+      <span class="stat-number">0</span>
+      <span class="stat-label">Decisions to make</span>
+    </div>
+  </div>
+
+  <!-- HOW IT WORKS -->
+  <section class="how">
+    <p class="section-label">How it works</p>
+    <h2>Three inputs.<br>A full week of meals.</h2>
+    <div class="steps">
+      <div class="step">
+        <span class="step-num">01.</span>
+        <div class="step-content">
+          <h4>Tell Wagba your constraints</h4>
+          <p>Weekly budget, time per day, dietary preferences, and protein goals. Takes about 90 seconds.</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step-num">02.</span>
+        <div class="step-content">
+          <h4>Get your week</h4>
+          <p>Wagba generates a full 7-day meal plan with batch-cook suggestions and zero overlap in ingredients.</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step-num">03.</span>
+        <div class="step-content">
+          <h4>Shop once, eat well</h4>
+          <p>Your grocery list is ready. Sorted, budgeted, and complete. Head to the store and you're done.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider"/>
+
+  <!-- BOTTOM CTA -->
+  <section class="bottom-cta">
+    <h2>Be the first to try Wagba.</h2>
+    <p>We're building for students and busy people who are tired of the "what's for dinner?" spiral.</p>
+    <iframe data-tally-src="https://tally.so/embed/lbyrv6?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1" loading="lazy" width="100%" height="211" frameborder="0" marginheight="0" marginwidth="0" title="Wagba Waitlist"></iframe>
+    <p class="form-note">Free during beta · No credit card · Unsubscribe anytime</p>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <span class="logo" style="font-size:1.1rem;">wagba<span style="color:var(--accent)">.</span></span>
+    <span>© 2025 Wagba · Built with ☕ in Eindhoven</span>
+  </footer>
+
+  <script>var d=document,w="https://tally.so/widgets/embed.js",v=function(){"undefined"!=typeof Tally?Tally.loadEmbeds():d.querySelectorAll("iframe[data-tally-src]:not([src])").forEach((function(e){e.src=e.dataset.tallySrc}))};if("undefined"!=typeof Tally)v();else if(d.querySelector('script[src="'+w+'"]')==null){var s=d.createElement("script");s.src=w,s.onload=v,s.onerror=v,d.body.appendChild(s);}</script>
+
+</body>
+</html>
